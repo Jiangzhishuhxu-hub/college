@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="recommend-container">
+    <h2 class="page-title">智能院校推荐</h2>
+    <div class="recommend-form">
+        <form method="POST" class="needs-validation" novalidate>
+            <div class="form-section">
+                <h3><i class="fas fa-chart-line"></i> 我的分数</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="total_score">总分</label>
+                            <input type="number" class="form-control" id="total_score" name="total_score" 
+                                   min="0" max="500" value="350" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="politics_score">政治</label>
+                            <input type="number" class="form-control" id="politics_score" name="politics_score" 
+                                   min="0" max="100" value="60" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="english_score">英语</label>
+                            <input type="number" class="form-control" id="english_score" name="english_score" 
+                                   min="0" max="100" value="60" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="math_score">数学</label>
+                            <input type="number" class="form-control" id="math_score" name="math_score" 
+                                   min="0" max="150" value="100" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="major_score">408专业基础</label>
+                            <input type="number" class="form-control" id="major_score" name="major_score" 
+                                   min="0" max="150" value="100" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3><i class="fas fa-filter"></i> 筛选条件</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="province">目标省份</label>
+                            <select class="form-control" id="province" name="province">
+                                {% for province in provinces %}
+                                <option value="{{ province }}">{{ province }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="school_level">院校层次</label>
+                            <select class="form-control" id="school_level" name="school_level">
+                                {% for level in school_levels %}
+                                <option value="{{ level }}">{{ level }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-recommend">
+                <i class="fas fa-search"></i> 开始智能推荐
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

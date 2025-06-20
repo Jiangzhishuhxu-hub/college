@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="container trend-result">
+    <h2 class="text-center my-4">{{ school }} <small>{{ major }}专业录取趋势</small></h2>
+
+    <div class="chart-container bg-white p-3 rounded shadow mb-4">
+        {{ chart_html|safe }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-chart-line me-2"></i>趋势分析
+                </div>
+                <div class="card-body">
+    {% if growth_rate is defined and growth_rate is not none %}
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle me-2"></i>
+        基于历史数据，预计年均增长率约为 <strong>{{ growth_rate }}%</strong>
+    </div>
+    {% endif %}
+
+    <ul class="list-group">
+        {% set history_data = trend_data.trend_data|selectattr('is_prediction', 'equalto', false)|list %}
+        {% set max_score = history_data|max(attribute='avg_score') if history_data else {'avg_score': '无数据'} %}
+        {% set last_history = history_data[-1] if history_data else none %}
+
+        <li class="list-group-item">
+            <i class="fas fa-arrow-up text-success me-2"></i>
+            历史最高分: <strong>{{ max_score.avg_score }}</strong> 分
+        </li>
+        <li class="list-group-item">
+            <i class="fas fa-calendar-alt text-primary me-2"></i>
+            数据年份: {{ trend_data.trend_data[0].year }}
+            {% if last_history %} - {{ last_history.year }}{% endif %}
+        </li>
+    </ul>
+</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-lightbulb me-2"></i>报考建议
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        预测结果仅供参考，实际录取分数可能受多种因素影响
+                    </div>
+
+                    {% if trend_data.has_prediction %}
+                    <p class="mb-1">
+                        <i class="fas fa-bullseye me-2"></i>
+                        建议目标分数: <strong>{{ ((trend_data.trend_data[-1].avg_score * 1.05)|round(1)) }}</strong> 分 (上浮5%)
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('trend_prediction') }}" class="btn btn-primary">
+            <i class="fas fa-redo me-2"></i>重新预测
+        </a>
+    </div>
+</div>
+{% endblock %}

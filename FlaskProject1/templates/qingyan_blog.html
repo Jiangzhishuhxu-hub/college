@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>青研博客</title>
+
+	<!--pageMeta-->
+
+	<!-- Loading Bootstrap -->
+	<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+
+	<!-- Loading Elements Styles -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+	<!-- Loading Magnific-Popup Styles -->
+    <link href="{{ url_for('static', filename='css/magnific-popup.css') }}" rel="stylesheet">
+
+	<!-- Loading Font Styles -->
+    <link href="{{ url_for('static', filename='css/iconfont-style.css') }}" rel="stylesheet">
+
+	<!-- Favicons -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicons/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='images/favicons/apple-touch-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='images/favicons/apple-touch-icon-114x114.png') }}">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+	<!--[if lt IE 9]>
+      <script src="{{ url_for('static', filename='js/jquery-1.11.2.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
+    <![endif]-->
+
+	<!--headerIncludes-->
+
+</head>
+
+<body data-spy="scroll" data-target=".navMenuCollapse">
+	<div id="wrap">
+
+		<!-- NAVIGATION -->
+		<nav class="navbar bg-color1 dark-bg navbar-fixed-top navbar-slide navbar-transparent">
+			<div class="container"> <a class="navbar-brand" href="{{ url_for('index') }}" style="display: flex; align-items: center;"><b>青研</b>|博客</a>
+				<button class="navbar-toggle menu-collapse-btn collapsed" data-toggle="collapse"
+					data-target=".navMenuCollapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> </button>
+				<div class="collapse navbar-collapse navMenuCollapse">
+					<ul class="nav">
+						<li><a href="#portfolio-grid-full">理想院校</a></li>
+						<li><a href="#team">青研择题</a></li>
+						<li><a href="#testimonials-grid">青研择师</a></li>
+						<li><a href="#contact-full">青研投稿</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- INTRO CENTER -->
+		<header id="intro-center" class="intro-block bg-color1 dark-bg fixed-bg double-padding text-center"
+			style="background-image: url('{{ url_for('static', filename='images/bg20.jpg') }}');">
+			<div class="container">
+				<div class="slogan">
+					 <h1 class="giant-title">青研</h1>
+					<h2><b>专为研究生而生的博客</b></h2>
+				</div>
+				<a class="goto" href="#portfolio-grid-full"><i class="icon big-icon icon-arrow-down"></i></a>
+			</div>
+		</header>
+
+		<!-- PORTFOLIO GRID FULL BLOCK -->
+		<section id="portfolio-grid-full" class="portfolio-block text-center zero-bottom">
+			<div class="container-fluid">
+				<ul class="portfolio-list">
+					<li>
+                        <a href="{{ url_for('static', filename='images/screens/screen1.jpg') }}" title="Description">
+                            <img src="{{ url_for('static', filename='images/screens/screen1.jpg') }}" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('static', filename='images/screens/screen2.jpg') }}" title="Description">
+                            <img src="{{ url_for('static', filename='images/screens/screen2.jpg') }}" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('static', filename='images/screens/screen3.jpg') }}" title="Description">
+                            <img src="{{ url_for('static', filename='images/screens/screen3.jpg') }}" alt="">
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('static', filename='images/screens/screen4.jpg') }}" title="Description">
+                            <img src="{{ url_for('static', filename='images/screens/screen4.jpg') }}" alt="">
+                        </a>
+                    </li>
+				</ul>
+			</div>
+		</section>
+
+
+		<!-- TEAM BLOCK -->
+		<section id="team" class="team-block">
+			<div class="container">
+				<h2 class="title text-center">青研择题</h2>
+				<div class="row">
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-1.jpg') }}" class="screen" alt="Team 1" />
+						<h4 class="name">如何科学选择研究生课题？5步法帮你避开迷茫</h4>
+						<h4 class="occupation">2025年5月5日</h4>
+						<p>选择课题需平衡兴趣、可行性与创新性。首先，通过文献综述（如用Connected Papers工具）定位领域空白；
+
+							其次，评估自身技能与实验室资源；最后，与导师讨论确定方向。避免过于宽泛或冷门的题目，小而精的课题更易出成果。</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-2.jpg') }}" class="screen" alt="Team 2" />
+						<h4 class="name">我的血泪史：选错课题后如何逆袭</h4>
+						<h4 class="occupation">2025年4月8日</h4>
+						<p>我曾因追逐热门课题导致进展缓慢，后发现实验条件不足。及时调整方向，聚焦子问题，最终发表论文。教训：选题前务必评估资源，与导师充分沟通，灵活性比“高大上”更重要。
+
+						</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-3.jpg') }}" class="screen" alt="Team 3" />
+						<h4 class="name">计算机领域选题：平衡创新与落地</h4>
+						<h4 class="occupation">2025年6月8日</h4>
+						<p>AI方向选题可结合现有技术（如模型轻量化）与垂直场景（医疗/农业）。避免扎堆热门模型，尝试改进边缘应用。GitHub趋势板块和顶会论文的“未来工作”部分常藏有灵感。</p>
+					</div>
+				</div>
+			</div>
+
+{#            第二排#}
+            <div class="container">
+				<h2 class="title text-center"></h2>
+				<div class="row">
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-4.jpg') }}" class="screen" alt="Team 1" />
+						<h4 class="name">课题选择的黄金三角：兴趣、可行性与创新性</h4>
+						<h4 class="occupation">2025年5月5日</h4>
+						<p>选题时要平衡三个关键点：兴趣（能否长期坚持）、可行性（设备/数据/时间是否允许）、创新性（是否解决真问题）。例如，某AI方向学生选择"医疗影像小样本学习"，既匹配实验室GPU资源，又填补临床实际需求。避免纯理论或过度工程化的极端。</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-5.jpg') }}" class="screen" alt="Team 2" />
+						<h4 class="name">从文献垃圾堆里挖出金矿：3步定位研究空白</h4>
+						<h4 class="occupation">2025年4月8日</h4>
+						<p>精读10篇领域顶刊论文，用Excel记录每篇的"不足与展望"——高频词就是待解决问题。某材料学研究生发现"钙钛矿稳定性"被27篇论文提及，据此设计的涂层方案最终发刊Adv.Mater。记得验证空白是否真有价值。
+
+						</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-6.jpg') }}" class="screen" alt="Team 3" />
+						<h4 class="name">冷门课题生存指南：如何避免成为学术孤儿</h4>
+						<h4 class="occupation">2025年6月8日</h4>
+						<p>选择"非主流"方向时（如古文字数字化），确保：①至少有2个国际团队在活跃研究 ②存在标准数据集或评价指标 ③导师有相关人脉。某哲学研究生研究冷门思想家，靠导师引荐参加国际工作坊打开局面。</p>
+					</div>
+				</div>
+			</div>
+
+
+		</section>
+
+		<!-- CONTENT CENTER VIDEO BLOCK -->
+		<section id="content-center-video" class="bg-color1 dark-bg double-padding text-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<h2 class="big-title">研究生<b>导师</b></h2>
+						<p class="desc-text">知识传授：导师是领域内经验丰富的"活体文献库"，能快速帮助学生突破认知盲区（如实验设计陷阱、理论漏洞）。<br>
+
+							思维锻造：通过组会辩论、论文批改等过程，系统性训练批判性思维，将学生从"知识消费者"转变为"问题解决者"。<br>
+
+							科研挫折常态化时，导师的应对经验成为关键支撑。某Nature访谈揭示：70%的科研突破者曾受导师关键性心理干预（如调整预期、分解压力）。<br>
+							从数据处理到作者署名，导师的严格把关规避学术不端风险。哈佛撤稿事件分析显示，缺乏导师监督的独立研究者违规率高出5倍。<br>
+
+							导师如同"科研船长"，既提供航海图和雷达（方法论与资源），也需学生主动掌舵（独立思考），共同应对学术风浪。<br></p>
+					</div>
+				</div>
+			</div>
+			<div class="video-bg"></div><div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="{{ url_for('static', filename='video/video_bg.mp4') }}" type="video/mp4">
+        </video>
+    </div>
+</section>
+
+
+		<!-- TEAM BLOCK -->
+		<section id="testimonials-grid" class="team-block">
+			<div class="container">
+				<h2 class="title text-center">青研择师</h2>
+				<div class="row">
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-7.jpg') }}" class="screen" alt="Team 1" />
+						<h4 class="name">选导师必问的5个问题，避开读研大坑</h4>
+						<h4 class="occupation">2025年4月15日</h4>
+						<p>选导师前务必当面沟通：实验室毕业要求、日常工作时间、经费支持情况、论文指导方式、往届生去向。某学长因未问清毕业标准，导致延毕1年。建议录音记录关键承诺，同时联系在读生验证真实性，避免“画饼型”导师。</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-8.jpg') }}" class="screen" alt="Team 2" />
+						<h4 class="name">年轻导师vs资深教授？选择背后的隐藏逻辑</h4>
+						<h4 class="occupation">2025年3月24日</h4>
+						<p>年轻导师往往亲力亲为指导实验，但资源有限；资深教授人脉广但可能放养。根据自身需求选择：想快速发论文选前者，追求长远发展选后者。关键看导师近年论文署名排序——一作给学生越多越值得跟。</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-9.jpg') }}" class="screen" alt="Team 3" />
+						<h4 class="name">导师说“感兴趣的方向都可以”时，到底什么意思？</h4>
+						<h4 class="occupation">2025年5月16日</h4>
+						<p>这句话可能是真开放，也可能是无规划。要追问具体问题清单：“实验室目前在研哪类项目？新方向启动资金多少？有无合作团队支持？”记录导师回答的详细程度，模糊回应需警惕。</p>
+					</div>
+				</div>
+
+{#                第二排#}
+                <div class="container">
+				<h2 class="title text-center"></h2>
+				<div class="row">
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-10.jpg') }}" class="screen" alt="Team 1" />
+						<h4 class="name">血泪教训：这些导师雷区千万别踩</h4>
+						<h4 class="occupation">2025年4月15日</h4>
+						<p>警惕“三无导师”：无定期组会（散养）、无学生一作（压榨）、无毕业校友（延毕率高）。某学姐因导师突然转行政，被迫自学三年。建议查导师评价网、ResearchGate关注学生离职动态，甚至实地蹲点观察实验室氛围。</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-11.jpg') }}" class="screen" alt="Team 2" />
+						<h4 class="name">文科选导师的隐形规则：读书会比论文更重要</h4>
+						<h4 class="occupation">2025年3月24日</h4>
+						<p>人文社科导师分两类：学术型（要求发C刊）和资源型（协助考公/出版）。参加其读书会可测试匹配度：如果90%时间在吹嘘人脉，慎选；能逐句批改文献综述的，值得跟。</p>
+					</div>
+					<div class="col-sm-4">
+						<img src="{{ url_for('static', filename='images/photo-team-12.jpg') }}" class="screen" alt="Team 3" />
+						<h4 class="name">从导师简历挖出关键信息：教你读懂“学术黑话”</h4>
+						<h4 class="occupation">2025年5月16日</h4>
+						<p>看导师简介要抓重点：“国家级人才”=有资源；“多篇顶会”=push狠；“产学研结合”=可能要出差打杂。注意Google Scholar的h指数增长率（近5年是否活跃），NSFC项目查重率（研究方向是否稳定）。</p>
+					</div>
+				</div>
+            </div>
+            </div>
+		</section>
+
+		<!-- CLIENTS BLOCK -->
+
+		<!-- CONTACT FULL BLOCK -->
+		<section id="contact-full">
+			<div class="container">
+				<h2 class="title">青研投稿</h2>
+				<p class="sep-bottom">
+					如果您想要投稿，可以在这里写下您想说的话。一旦您的投稿经过审核并被批准，它将会显示在投稿板上，供大家查看。请注意，所有投稿都需要遵守相关的社区准则和规定，以确保内容的适当性和尊重性。您可以开始输入您的投稿，完成后提交，我们将会进行处理。
+				</p>
+				 <form action="{{ url_for('submit_contribution') }}" method="POST" role="form" id="contact_form" novalidate>
+					<div class="form-group">
+                        <input type="text" class="form-control" id="contact_name" placeholder="姓名" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="contact_email" placeholder="邮箱地址" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="contact_date" placeholder="投稿日期" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="contact_title" placeholder="标题" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="4" placeholder="你的投稿....." id="contact_message"
+                            name="message" required></textarea>
+                    </div>
+					<button type="submit" id="contact_submit" data-loading-text="•••"
+						class="btn btn-lg btn-block btn-primary"><i class="icon icon-paper-plane"></i>提交</button>
+				</form>
+			</div>
+		</section>
+
+		<!-- FOOTER -->
+		<footer id="footer" class="bg-color1 dark-bg">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-push-6 text-right">
+						<ul class="soc-list">
+							<li><a href="#" target="_blank"><i class="icon icon-twitter2"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-facebook2"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-dribbble2"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-behance"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-google plus2"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-linkedin2"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-instagram"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-pinterest"></i></a></li>
+							<li><a href="#" target="_blank"><i class="icon icon-flickr"></i></a></li>
+						</ul>
+					</div>
+					<div class="col-md-6 col-md-pull-6">  <img class="logo" src="{{ url_for('static', filename='images/footer-logo.png') }}" alt="">  <span
+							class="editContent">© 2025 Select<br>
+							Designed by <a href="https://multifour.com/" target="_blank">Wu</a></span> </div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<!-- /#wrap -->
+
+	<!-- MODALS BEGIN-->
+	<div class="modal fade" id="modalMessage" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 class="modal-title">&nbsp;</h3>
+			</div>
+		</div>
+	</div>
+	<!-- MODALS END-->
+
+	<!-- JavaScript -->
+	<script src="{{ url_for('static', filename='js/jquery-1.11.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/smooth scroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.smooth-scroll.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/placeholders.jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.counterpart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/video.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/big video.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+</body>
+
+</html>

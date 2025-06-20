@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户注册</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#7B61FF',
+                        accent: '#36D399',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .register-container {
+                @apply max-w-7xl mx-auto mt-16 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row;
+            }
+            .register-title {
+                @apply text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-6;
+            }
+            .form-group {
+                @apply mb-6 relative;
+            }
+            .form-label {
+                @apply block text-gray-700 text-sm font-medium mb-2;
+            }
+            .form-input {
+                @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300;
+            }
+            .btn-primary {
+                @apply w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg flex items-center justify-center gap-2;
+            }
+            .btn-secondary {
+                @apply w-full bg-white border border-gray-300 hover:bg-gray-50 text-dark font-semibold py-3 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2;
+            }
+            .error-message {
+                @apply text-red-500 text-sm mt-1 flex items-center;
+            }
+            .success-message {
+                @apply text-green-500 text-sm mt-1 flex items-center;
+            }
+            .login-link {
+                @apply block text-center mt-4 text-primary hover:text-primary/80 transition-colors;
+            }
+            .input-icon {
+                @apply absolute left-3 top-3 text-gray-400;
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            .stats-container {
+                @apply bg-white/10 backdrop-blur-sm p-4 rounded-lg mt-8;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-light to-gray-100 font-inter min-h-screen">
+    <!-- 背景装饰 -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5"></div>
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full filter blur-3xl animate-pulse-slow"></div>
+        <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-secondary/10 rounded-full filter blur-3xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+    </div>
+
+    <div class="register-container relative z-10">
+        <!-- 左侧装饰面板 -->
+        <div class="hidden md:flex md:w-2/5 bg-gradient-to-br from-secondary to-primary p-8 items-center justify-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <div class="absolute top-10 left-10 w-20 h-20 rounded-full border-4 border-white"></div>
+                <div class="absolute bottom-10 right-10 w-32 h-32 rounded-full border-4 border-white"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border-4 border-white"></div>
+            </div>
+
+            <div class="text-white text-center relative z-10 w-full">
+                <div class="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-6 animate-float">
+                    <i class="fa fa-user-plus text-4xl"></i>
+                </div>
+                <h2 class="text-[clamp(1.5rem,2vw,2rem)] font-bold mb-4">创建新账户</h2>
+                <p class="text-white/80 mb-8">加入我们，开启您的学习之旅</p>
+
+                <!-- 特点列表 -->
+                <div class="text-left space-y-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <i class="fa fa-check-circle text-accent"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-white font-medium">成绩分析</h3>
+                            <p class="text-white/70 text-sm">深入了解您的学习情况</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <i class="fa fa-check-circle text-accent"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-white font-medium">院校对比</h3>
+                            <p class="text-white/70 text-sm">科学选择适合您的院校</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <i class="fa fa-check-circle text-accent"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-white font-medium">学习计划</h3>
+                            <p class="text-white/70 text-sm">制定个性化备考计划</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 地图信息 -->
+                <div class="stats-container mt-8">
+                    <h3 class="text-sm font-medium mb-3">院校分布</h3>
+                    <div class="flex justify-center">
+                        <i class="fa fa-map-marker text-5xl text-white/80 animate-float"></i>
+                    </div>
+                    <p class="text-white/70 text-sm mt-3">覆盖全国多所院校数据</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧注册表单 -->
+        <div class="w-full md:w-3/5 p-8 md:p-12">
+            <div class="mb-8">
+                <h1 class="register-title">创建您的账户</h1>
+                <p class="text-gray-500">填写以下信息注册新账户</p>
+            </div>
+
+            <!-- 显示消息提示 -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mb-6">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} bg-{{ category }}-50 border-l-4 border-{{ category }}-400 text-{{ category }}-700 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <i class="fa fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' }}"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">{{ message }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('auth.register') }}" class="space-y-6">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    <div class="relative">
+                        <span class="input-icon flex items-center h-full">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-input pl-10", placeholder="输入您的邮箱") }}
+                    </div>
+                    {% for error in form.email.errors %}
+                        <span class="error-message"><i class="fa fa-exclamation-circle mr-1"></i>{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <div class="relative">
+                        <span class="input-icon flex items-center h-full">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-input pl-10", placeholder="输入您的姓名") }}
+                    </div>
+                    {% for error in form.name.errors %}
+                        <span class="error-message"><i class="fa fa-exclamation-circle mr-1"></i>{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <div class="relative">
+                        <span class="input-icon flex items-center h-full">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        {{ form.password.label(class="form-label") }}
+                        {{ form.password(class="form-input pl-10", placeholder="输入您的密码") }}
+                    </div>
+                    {% for error in form.password.errors %}
+                        <span class="error-message"><i class="fa fa-exclamation-circle mr-1"></i>{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <div class="relative">
+                        <span class="input-icon flex items-center h-full">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        {{ form.confirm_password.label(class="form-label") }}
+                        {{ form.confirm_password(class="form-input pl-10", placeholder="确认您的密码") }}
+                    </div>
+                    {% for error in form.confirm_password.errors %}
+                        <span class="error-message"><i class="fa fa-exclamation-circle mr-1"></i>{{ error }}</span>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <i class="fa fa-user-plus"></i>
+                    注册
+                </button>
+
+                <div class="text-center text-gray-500 text-sm">
+                    或者使用以下方式快速注册
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button" class="btn-secondary">
+                        <i class="fa fa-weixin text-green-600"></i>
+                        微信注册
+                    </button>
+                    <button type="button" class="btn-secondary">
+                        <i class="fa fa-qq text-blue-500"></i>
+                        QQ注册
+                    </button>
+                </div>
+
+                <div class="text-sm text-gray-500">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded text-primary focus:ring-primary/50">
+                        <span class="ml-2">我已阅读并同意<a href="#" class="text-primary hover:underline">服务条款</a>和<a href="#" class="text-primary hover:underline">隐私政策</a></span>
+                    </label>
+                </div>
+            </form>
+
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    已有账号？
+                    <a href="{{ url_for('auth.login') }}" class="text-primary font-medium hover:underline transition-all duration-300">
+                        立即登录
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="mt-16 text-center text-gray-500 text-sm pb-8">
+        <p>© 2026研究生招生考试 450分的江直树旭 | 版权所有</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算机类考研数据可视化平台</title>
+  <!-- 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入 Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <!-- 引入ECharts核心库 -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<!-- 本地引入中国地图 -->
+<script src="{{ url_for('static', filename='js/china.js') }}"></script>
+ <!-- 如果需要jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- 配置 Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#36CFC9',
+            neutral: '#F5F7FA',
+            dark: '#1D2129',
+            tech: {
+              50: '#E6F4FF',
+              100: '#CCE8FF',
+              200: '#99D1FF',
+              300: '#66B9FF',
+              400: '#33A1FF',
+              500: '#0088FF',
+              600: '#0066CC',
+              700: '#004D99',
+              800: '#003366',
+              900: '#001A33',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+
+
+
+
+ <style type="text/tailwindcss">
+  @layer utilities {
+    .content-auto {
+      content-visibility: auto;
+    }
+    .chart-container {
+      @apply bg-white rounded-xl shadow-md p-4 mb-6 transition-all duration-300 hover:shadow-lg;
+    }
+    .chart-title {
+      @apply text-xl font-bold text-dark mb-4 flex items-center;
+    }
+    .chart-title::before {
+      content: '';
+      @apply w-2 h-6 bg-primary rounded mr-2;
+    }
+    .img-container {
+      @apply overflow-hidden rounded-lg shadow-sm;
+    }
+    .card-hover {
+      @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-xl;
+    }
+    .tech-card {
+      @apply bg-gradient-to-br from-tech-900 to-tech-800 text-white rounded-xl shadow-lg p-4 mb-6 transition-all duration-300 hover:shadow-xl;
+    }
+    .tech-card-title {
+      @apply text-xl font-bold mb-4 flex items-center;
+    }
+    .tech-card-title::before {
+      content: '';
+      @apply w-2 h-6 bg-tech-400 rounded mr-2;
+    }
+    .glow {
+      @apply relative;
+    }
+    .glow::after {
+      content: '';
+      @apply absolute inset-0 bg-tech-500/20 rounded-xl blur-md -z-10;
+    }
+    .data-number {
+      @apply text-3xl font-bold text-tech-400;
+    }
+    .dashboard-grid {
+      @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+    }
+
+    /* 登录表单专用样式 */
+    .input-icon-container {
+      @apply w-10 h-10 bg-primary/20 rounded-l-lg flex items-center justify-center border border-primary/30;
+    }
+    .form-input {
+      @apply flex-1 px-4 py-3 bg-tech-900/80 border border-primary/30 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-white;
+    }
+    .form-button {
+      @apply w-full bg-gradient-to-r from-primary to-tech-500 hover:from-tech-500 hover:to-primary text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg;
+    }
+  }
+</style>
+</head>
+<div class="bg-gradient-to-br from-tech-900 to-dark min-h-screen text-gray-100">
+  <!-- 顶部导航栏 -->
+  <nav class="bg-tech-800/80 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-tech-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <a href="#" class="flex-shrink-0 flex items-center">
+            <i class="fa fa-bar-chart text-tech-400 text-2xl mr-2"></i>
+            <span class="font-bold text-xl text-white">计算机类考研数据平台</span>
+          </a>
+          <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <a href="#" class="border-tech-400 text-white border-b-2 px-1 pt-1 inline-flex items-center text-sm font-medium">
+              <i class="fa fa-home mr-1"></i> 数据概览
+            </a>
+            <!-- 在导航栏中添加院校推荐链接 -->
+            <a href="{{ url_for('school_recommendation') }}" class="text-gray-300 hover:text-white hover:border-tech-400 border-b-2 px-1 pt-1 inline-flex items-center text-sm font-medium transition-colors duration-200">
+               <i class="fa fa-university mr-1"></i> 院校推荐
+            </a>
+            <a href="{{ url_for('trend_prediction') }}" class="text-gray-300 hover:text-white hover:border-tech-400 border-b-2 px-1 pt-1 inline-flex items-center text-sm font-medium transition-colors duration-200">
+              <i class="fa fa-line-chart mr-1"></i> 趋势预测
+            </a>
+              <a href="{{ url_for('qingyan_blog') }}" class="text-gray-300 hover:text-white hover:border-tech-400 border-b-2 px-1 pt-1 inline-flex items-center text-sm font-medium transition-colors duration-200">
+               <i class="fa fa-book mr-1"></i> 青研博客
+              </a>
+          </div>
+        </div>
+        <div class="flex items-center">
+    <div class="flex-shrink-0">
+        <div class="relative">
+            <button type="button" id="userMenuButton" class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                <span class="sr-only">打开用户菜单</span>
+                <img class="h-8 w-8 rounded-full" src="https://picsum.photos/200/200?random={{ current_user.id }}" alt="{{ current_user.name }}">
+                <span class="ml-2 hidden md:block font-medium text-gray-700">{{ current_user.name }}</span>
+                <i class="fa fa-chevron-down ml-1 text-gray-500 text-xs"></i>
+            </button>
+
+            <!-- 用户菜单 -->
+            <div id="userMenu" class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1 hidden z-50">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-user-circle mr-2"></i> 个人资料
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i class="fa fa-sign-out mr-2"></i> 退出登录
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <!-- 数据概览卡片 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="tech-card glow">
+        <div class="tech-card-title">院校总数</div>
+        <div class="data-number">{{ province_data|sum(attribute='数量') }}</div>
+        <div class="text-tech-300 mt-2">覆盖全国34个省份</div>
+      </div>
+      <div class="tech-card glow">
+        <div class="tech-card-title">平均分数</div>
+        <div class="data-number">{{ df['总分'].mean()|round(1) }}</div>
+        <div class="text-tech-300 mt-2">基于最近5年数据</div>
+      </div>
+      <div class="tech-card glow">
+        <div class="tech-card-title">热门专业</div>
+        <div class="data-number">计算机科学与技术</div>
+        <div class="text-tech-300 mt-2">报考热度持续上升</div>
+      </div>
+    </div>
+
+    <!-- 省份地图图表 -->
+    <div class="chart-container bg-tech-900/80 border border-tech-700">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="chart-title text-white">省份分布地图</h2>
+        <button id="toggleProvinceView" class="bg-tech-600 hover:bg-tech-500 text-white font-medium py-1.5 px-3 rounded transition-all duration-200 flex items-center">
+          <i class="fa fa-exchange mr-1"></i> 切换视图
+        </button>
+      </div>
+      <div id="provinceChart" class="w-full h-[500px]"></div>
+    </div>
+
+    <!-- 图表网格 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- 总分分布直方图 -->
+      <div class="chart-container bg-tech-900/80 border border-tech-700">
+        <h2 class="chart-title text-white">总分分布直方图</h2>
+        <div class="img-container">
+          {% if score_distribution %}
+            <img src="data:image/png;base64,{{ score_distribution }}" alt="总分分布直方图" class="w-full h-auto">
+          {% else %}
+            <div class="w-full h-64 flex items-center justify-center bg-tech-800/50 text-gray-400">
+              <i class="fa fa-chart-bar text-4xl mr-2"></i>
+              <span>暂无数据</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- 各学校平均分数对比图 -->
+      <div class="chart-container bg-tech-900/80 border border-tech-700">
+        <h2 class="chart-title text-white">各学校平均分数对比</h2>
+        <div class="img-container">
+          {% if school_scores %}
+            <img src="data:image/png;base64,{{ school_scores }}" alt="各学校平均分数对比图" class="w-full h-auto">
+          {% else %}
+            <div class="w-full h-64 flex items-center justify-center bg-tech-800/50 text-gray-400">
+              <i class="fa fa-school text-4xl mr-2"></i>
+              <span>暂无数据</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- 成绩相关性矩阵图 -->
+      <div class="chart-container bg-tech-900/80 border border-tech-700">
+        <h2 class="chart-title text-white">成绩相关性矩阵</h2>
+        <div class="img-container">
+          {% if correlation_chart %}
+            <img src="data:image/png;base64,{{ correlation_chart }}" alt="成绩相关性矩阵图" class="w-full h-auto">
+          {% else %}
+            <div class="w-full h-64 flex items-center justify-center bg-tech-800/50 text-gray-400">
+              <i class="fa fa-table text-4xl mr-2"></i>
+              <span>暂无数据</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+     <div class="chart-container bg-tech-900/80 border border-tech-700">
+        <h2 class="chart-title text-white">各科分数雷达图</h2>
+        <div class="img-container">
+                {% if subject_radar %}
+                  <img src="data:image/png;base64,{{ subject_radar }}" alt="各科分数雷达图" class="w-full h-auto">
+                {% else %}
+                    <div class="w-full h-64 flex items-center justify-center bg-tech-800/50 text-gray-400">
+                        <i class="fa fa-chart-polar text-4xl mr-2"></i>
+                          <span>暂无数据</span>
+                    </div>
+                {% endif %}
+        </div>
+     </div>
+
+      <!-- 新增：录取分数线趋势图 -->
+     <div class="chart-container bg-tech-900/80 border border-tech-700">
+        <h2 class="chart-title text-white">录取分数线趋势图</h2>
+        <div class="img-container">
+          {% if score_trend %}
+            <img src="data:image/png;base64,{{ score_trend }}" alt="录取分数线趋势图" class="w-full h-auto">
+          {% else %}
+            <div class="w-full h-64 flex items-center justify-center bg-tech-800/50 text-gray-400">
+              <i class="fa fa-line-chart text-4xl mr-2"></i>
+              <span>暂无数据</span>
+            </div>
+          {% endif %}
+        </div>
+     </div>
+
+      <!-- 报考热度地图 -->
+     <div class="chart-container bg-tech-900/80 border border-tech-700">
+        <h2 class="chart-title text-white">报考热度地图</h2>
+        <div class="img-container">
+           {% if application_heatmap %}
+      <!-- 使用iframe嵌入地图 -->
+               <iframe src="data:text/html;base64,{{ application_heatmap }}"
+                frameborder="0" width="100%" height="400px"></iframe>
+           {% else %}
+      <div class="w-full h-64 flex items-center justify-center bg-tech-800/50 text-gray-400">
+        <i class="fa fa-map text-4xl mr-2"></i>
+        <span>暂无数据</span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{#    <!-- 数据表格 -->#}
+{#<div class="bg-tech-900/80 border border-tech-700 mt-6 p-4">#}
+{#  <h2 class="text-xl font-bold text-white mb-4 flex items-center">#}
+{#    <span class="w-2 h-6 bg-tech-400 rounded mr-2"></span>#}
+{#    数据详情#}
+{#  </h2>#}
+{#  <div class="overflow-x-auto">#}
+{#    <table class="bg-tech-900/80 border border-tech-700 mt-6 p-4">#}
+{#          <thead class="bg-tech-800">#}
+{#            <tr>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">序号</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">学校</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">省份</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">总分</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">政治</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">英语</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">数学</th>#}
+{#              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-tech-300 uppercase tracking-wider">专业</th>#}
+{#            </tr>#}
+{#          </thead>#}
+{#          <tbody class="bg-tech-900/80 border border-tech-700 mt-6 p-4">#}
+{#            {% for item in table_data %}#}
+{#            <tr class="hover:bg-tech-800/50 transition-colors duration-200">#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ loop.index }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-tech-400">{{ item['学校'] }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ item['省份'] }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ item['总分'] }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ item['政治'] }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ item['英语'] }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ item['数学'] }}</td>#}
+{#              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ item['408专业基础'] }}</td>#}
+{#            </tr>#}
+{#            {% endfor %}#}
+{#          </tbody>#}
+{#    </table>#}
+{#  </div>#}
+    </div>
+</main>
+</div>
+
+
+
+  <!-- 页脚 -->
+  <footer class="bg-tech-900/80 border-t border-tech-700 text-tech-400 py-6 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <p class="text-sm">© 2026考450的江直树旭. 保留所有权利.</p>
+        </div>
+        <div class="flex space-x-4">
+          <a href="#" class="text-tech-500 hover:text-tech-300 transition-colors duration-200">
+            <i class="fa fa-github text-xl"></i>
+          </a>
+          <a href="#" class="text-tech-500 hover:text-tech-300 transition-colors duration-200">
+            <i class="fa fa-twitter text-xl"></i>
+          </a>
+          <a href="#" class="text-tech-500 hover:text-tech-300 transition-colors duration-200">
+            <i class="fa fa-linkedin text-xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+ <script>
+    // 从Flask获取省份数据
+    const provinceData = [
+        {% for item in province_data %}
+        {name: '{{ item['省份'] }}', value: {{ item['数量'] }}},
+        {% endfor %}
+    ];
+
+    // 中国所有省份列表
+    const allProvinces = [
+        '北京', '天津', '河北', '山西', '内蒙古',
+        '辽宁', '吉林', '黑龙江', '上海', '江苏',
+        '浙江', '安徽', '福建', '江西', '山东',
+        '河南', '湖北', '湖南', '广东', '广西',
+        '海南', '重庆', '四川', '贵州', '云南',
+        '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆'
+    ];
+
+    // 确保所有省份都在数据中，如果没有则添加默认值
+    const completeProvinceData = allProvinces.map(province => {
+        const found = provinceData.find(item => item.name === province);
+        return found || {name: province, value: null};
+    });
+
+    // 地图视图配置
+    const mapOption = {
+        backgroundColor: '#f5f5f5',
+        title: {
+            text: '中国各省份学校数量分布',
+            left: 'center',
+            textStyle: {
+                color: '#333',
+                fontSize: 16
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+                if (params.value === null) {
+                    return `${params.name}<br/>数据未知`;
+                }
+                return `${params.name}<br/>学校数量: ${params.value}`;
+            }
+        },
+        visualMap: {
+            min: 0,
+            max: {{ province_data[0]['数量'] if province_data else 100 }},
+            left: 'left',
+            top: 'bottom',
+            text: ['高', '低'],
+            calculable: true,
+            inRange: {
+                color: ['#e0ecff', '#73a6ff', '#0058a3']
+            },
+            // 为null值指定特殊颜色
+            outOfRange: {
+                color: '#cccccc'
+            }
+        },
+        series: [
+            {
+                name: '学校数量',
+                type: 'map',
+                mapType: 'china',
+                roam: false,
+                label: {
+                    show: true,
+                    color: '#333',
+                    fontSize: 10
+                },
+                data: completeProvinceData,
+                universalTransition: true,
+                // 高亮状态下的样式
+                emphasis: {
+                    label: {
+                        show: true
+                    },
+                    itemStyle: {
+                        areaColor: '#ffd700'
+                    }
+                }
+            }
+        ],
+        // 添加图例说明
+        legend: {
+            data: ['有数据', '数据未知'],
+            orient: 'horizontal',
+            left: 'center',
+            bottom: '5px',
+            itemWidth: 15,
+            itemHeight: 15,
+            formatter: function(name) {
+                if (name === '有数据') {
+                    return '■ ' + name;
+                } else {
+                    return '□ ' + name;
+                }
+            }
+        }
+    };
+
+    // 柱状图视图配置（只显示有数据的省份）
+    const barOption = {
+        backgroundColor: '#f5f5f5',
+        title: {
+            text: '中国各省份学校数量分布',
+            left: 'center',
+            textStyle: {
+                color: '#333',
+                fontSize: 16
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            // 只显示有数据的省份
+            data: completeProvinceData
+                .filter(item => item.value !== null)
+                .map(item => item.name)
+        },
+        series: [
+            {
+                name: '学校数量',
+                type: 'bar',
+                // 只显示有数据的省份
+                data: completeProvinceData
+                    .filter(item => item.value !== null)
+                    .map(item => item.value),
+                universalTransition: true,
+                itemStyle: {
+                    color: '#0058a3'
+                }
+            }
+        ]
+    };
+
+    // 当前显示的选项
+    let currentProvinceView = 'map';
+
+
+
+    // 用户菜单控制
+    document.addEventListener('DOMContentLoaded', function() {
+        const userMenuButton = document.getElementById('userMenuButton');
+        const userMenu = document.getElementById('userMenu');
+
+        userMenuButton.addEventListener('click', function() {
+            userMenu.classList.toggle('hidden');
+        });
+
+        // 点击页面其他地方关闭菜单
+        document.addEventListener('click', function(event) {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+    });
+
+    // 省份地图图表初始化代码保持不变...
+
+
+    // 初始化图表
+    const provinceChart = echarts.init(document.getElementById('provinceChart'));
+    provinceChart.setOption(mapOption);
+
+    // 视图切换按钮事件
+    document.getElementById('toggleProvinceView').addEventListener('click', function() {
+        if (currentProvinceView === 'map') {
+            provinceChart.setOption(barOption, true);
+            currentProvinceView = 'bar';
+            this.innerHTML = '<i class="fa fa-map mr-1"></i> 显示地图';
+        } else {
+            provinceChart.setOption(mapOption, true);
+            currentProvinceView = 'map';
+            this.innerHTML = '<i class="fa fa-chart-bar mr-1"></i> 显示柱状图';
+        }
+    });
+
+    // 窗口大小变化时调整图表
+    window.addEventListener('resize', function() {
+        provinceChart.resize();
+    });
+  </script>
+</body>
+</html>

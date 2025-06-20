@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="recommend-result">
+    <h2 class="page-title">推荐结果</h2>
+    
+    <div class="result-summary">
+        <div class="user-scores">
+            <h4><i class="fas fa-user"></i> 我的分数</h4>
+            <ul>
+                <li>总分: <strong>{{ user_scores['总分'] }}</strong></li>
+                <li>政治: {{ user_scores['政治'] }} | 英语: {{ user_scores['英语'] }}</li>
+                <li>数学: {{ user_scores['数学'] }} | 专业课: {{ user_scores['408专业基础'] }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="radar-chart">
+        {{ radar_chart|safe }}
+    </div>
+
+    <div class="recommend-schools">
+        {% for school in recommended_schools %}
+        <div class="school-card">
+            <div class="school-header">
+                <h3>{{ school.name }}</h3>
+                <span class="match-badge" style="background-color: {{ 'var(--success)' if school.match > 75 else 'var(--warning)' if school.match > 50 else 'var(--danger)' }}">
+                    匹配度 {{ school.match }}%
+                </span>
+            </div>
+            <div class="school-details">
+                <div class="detail-item">
+                    <span class="detail-label"><i class="fas fa-map-marker-alt"></i> 地区</span>
+                    <span class="detail-value">{{ school.province }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label"><i class="fas fa-graduation-cap"></i> 层次</span>
+                    <span class="detail-value">{{ school.level }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label"><i class="fas fa-star"></i> 平均分</span>
+                    <span class="detail-value">{{ school.avg_score }}</span>
+                </div>
+            </div>
+            <div class="school-scores">
+                <div class="score-bar">
+                    <div class="score-label">政治</div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ school.scores['政治'] }}%" 
+                             aria-valuenow="{{ school.scores['政治'] }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="score-value">{{ school.scores['政治'] }}</span>
+                </div>
+                <!-- 其他科目类似 -->
+            </div>
+            <button class="btn btn-outline-primary btn-sm btn-detail">
+                <i class="fas fa-info-circle"></i> 查看详情
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

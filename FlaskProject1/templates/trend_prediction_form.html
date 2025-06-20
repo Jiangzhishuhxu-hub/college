@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="trend-container">
+    <!-- 新增：用于显示报考招生人数折线图的容器 -->
+    <div class="chart-container bg-white p-3 rounded shadow mb-4">
+        {{ enrollment_chart|safe }}
+</div>
+
+
+    <h2 class="page-title">录取趋势预测</h2>
+    <div class="trend-form">
+        <form method="POST" action="{{ url_for('trend_prediction') }}">
+            <div class="form-group">
+                <label for="school">目标院校</label>
+                <select class="form-control" id="school" name="school" required>
+                    <option value="">-- 请选择学校 --</option>
+                    {% for school in schools %}
+                    <option value="{{ school }}">{{ school }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="major">目标专业</label>
+                <input type="text" class="form-control" id="major" name="major"
+                       value="计算机科学与技术" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">开始预测</button>
+        </form>
+    </div>
+
+    <div class="trend-tips">
+        <div class="tip-card">
+            <i class="fas fa-lightbulb"></i>
+            <h4>预测说明</h4>
+            <p>基于历史录取数据和线性回归算法，预测未来3年的录取分数趋势</p>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.select2').select2({
+        placeholder: "选择学校",
+        allowClear: true
+    });
+});
+</script>
+{% endblock %}
